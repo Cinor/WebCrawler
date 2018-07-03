@@ -10,6 +10,9 @@ namespace CrawlerTest
     {
         static void Main(string[] args)
         {
+            HtmlAgilityPack a = new HtmlAgilityPack();
+            a.GetNewsTody();
+
         }
     }
 }
