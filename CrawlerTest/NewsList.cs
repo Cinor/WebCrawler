@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace CrawlerTest
 {
-    class Program
+    class NewsList
     {
-        static void Main(string[] args)
-        {
-            News a = new News();
-            a.GetNewsTody();
 
-        }
+        public String Days { get; set; }
+        public List<NewsData> GetList { get; set; }
+
     }
 }

@@ -121,8 +121,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HtmlAgilityPack.cs" />
     <Compile Include="News.cs" />
+    <Compile Include="NewsData.cs" />
+    <Compile Include="NewsList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
