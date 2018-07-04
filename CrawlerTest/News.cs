@@ -13,46 +13,81 @@ namespace CrawlerTest
 {
     class News
     {
-
-
+        
         public void GetNewsTody()
         {
             string link;
 
             link = "https://tw.appledaily.com/new/realtime";
 
-            HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = web.Load(link);
-
-            //項目名稱
-            var nodeHead = doc.DocumentNode.SelectNodes("//div[@class='abdominis rlby clearmen']/h1[1]");
-            //新聞標題資料
-            var nodeData = doc.DocumentNode.SelectNodes("//div[@class='abdominis rlby clearmen']/ul[1]/li");
-
-            NewsList newsList = new NewsList();
-
-            foreach (var nsh in nodeHead)
+            try
             {
-                newsList.Days = nsh.InnerText;
+                HtmlWeb web = new HtmlWeb();
+                HtmlDocument doc = web.Load(link);
 
-                List<NewsData> newsData = new List<NewsData>();
-                foreach (var nsd in nodeData)
+                //項目名稱
+                var nodeHead = doc.DocumentNode.SelectNodes("//div[@class='abdominis rlby clearmen']/h1[1]");
+                //新聞標題資料
+                var nodeData = doc.DocumentNode.SelectNodes("//div[@class='abdominis rlby clearmen']/ul[1]/li");
+
+                NewsList newsList = new NewsList();
+
+                foreach (var nsh in nodeHead)
                 {
-                    NewsData data = new NewsData();
-                    var Data = Regex.Split(nsd.InnerText.Replace(" ", "").Replace("\r\n\r\n", ""), "\r\n");
-                    //抓取時間:時分
-                    data.Time = Data[0];
-                    //抓取類型
-                    data.Types = Data[1];
-                    //抓取網址
-                    data.Link = nsd.SelectSingleNode("./a").Attributes["href"].Value;
-                    //抓取標題
-                    data.Head = Data[2];
+                    newsList.Days = nsh.InnerText;
 
-                    newsData.Add(data);
+                    List<NewsData> newsData = new List<NewsData>();
+                    foreach (var nsd in nodeData)
+                    {
+                        NewsData data = new NewsData();
+                        var Data = Regex.Split(nsd.InnerText.Replace(" ", "").Replace("\r\n\r\n", ""), "\r\n");
+                        //抓取時間:時分
+                        data.Time = Data[0];
+                        //抓取類型
+                        data.Types = Data[1];
+                        //抓取網址
+                        var newlink = nsd.SelectSingleNode("./a").Attributes["href"].Value;
+                        data.Link = newlink;
+                        //抓取內文
+                        data.Content = GetNewsContent(newlink);
+                        //抓取標題
+                        data.Head = Data[2];
+
+                        newsData.Add(data);
+                    }
+                    newsList.GetList = newsData;
+
                 }
-                newsList.GetList = newsData;
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+                
+
+        }
+
+        public String GetNewsContent(String Link)
+        {
+            try
+            {
+                HtmlWeb web = new HtmlWeb();
+                HtmlDocument doc = web.Load(Link);
+
+                //新聞標題
+                var nodeHead = doc.DocumentNode.SelectNodes("//article[@class='ndArticle_leftColumn']/hgroup/h1");
+                //新聞內文
+                var nodeData = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_content clearmen']/div/p");
+
+                String nodeContent = nodeData.InnerText;
+
+                return nodeContent;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
         }

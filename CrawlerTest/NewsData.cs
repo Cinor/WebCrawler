@@ -15,6 +15,7 @@ namespace CrawlerTest
         public String Link { get; set; }
 
         public String Head { get; set; }
+        public String Content { get; set; }
 
     }
 }
