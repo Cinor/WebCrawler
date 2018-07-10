@@ -8,8 +8,13 @@ namespace CrawlerTest
 {
     class NewsList
     {
-
+        /// <summary>
+        /// 日期
+        /// </summary>
         public String Days { get; set; }
+        /// <summary>
+        /// NewDataList
+        /// </summary>
         public List<NewsData> GetList { get; set; }
 
     }

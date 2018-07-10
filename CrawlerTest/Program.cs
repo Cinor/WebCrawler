@@ -11,7 +11,8 @@ namespace CrawlerTest
         static void Main(string[] args)
         {
             News a = new News();
-            a.GetNewsTody();
+            a.Page = 10;
+            a.GetNews();
 
         }
     }

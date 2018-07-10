@@ -13,12 +13,26 @@ namespace CrawlerTest
 {
     class News
     {
+        public int Page { get; set; }
+        private List<NewsList> NewsDataList = new List<NewsList>();
         
-        public void GetNewsTody()
+        public void GetNews()
+        {
+            int p = 0;
+            while ( p <= Page)
+            {
+                GetNewsLink(p);
+                p++;
+            }
+        }
+        
+        private void GetNewsLink(int page)
         {
             string link;
 
-            link = "https://tw.appledaily.com/new/realtime";
+            link = "https://tw.appledaily.com/new/realtime/";
+
+            link = link + page.ToString();
 
             try
             {
@@ -56,8 +70,10 @@ namespace CrawlerTest
                         newsData.Add(data);
                     }
                     newsList.GetList = newsData;
-
+                    NewsDataList.Add(newsList);
                 }
+                
+
             }
             catch (Exception)
             {
@@ -68,7 +84,7 @@ namespace CrawlerTest
 
         }
 
-        public String GetNewsContent(String Link)
+        private String GetNewsContent(String Link)
         {
             try
             {
@@ -76,12 +92,12 @@ namespace CrawlerTest
                 HtmlDocument doc = web.Load(Link);
 
                 //新聞標題
-                var nodeHead = doc.DocumentNode.SelectNodes("//article[@class='ndArticle_leftColumn']/hgroup/h1");
+                var nodeContentHead = doc.DocumentNode.SelectNodes("//article[@class='ndArticle_leftColumn']/hgroup/h1");
                 //新聞內文
-                var nodeData = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_content clearmen']/div/p");
+                var nodeContentData = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_content clearmen']/div/p");
 
-                String nodeContent = nodeData.InnerText;
-
+                String nodeContent = nodeContentData.InnerText;
+                
                 return nodeContent;
             }
             catch (Exception)
