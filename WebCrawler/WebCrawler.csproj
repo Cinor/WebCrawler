@@ -232,6 +232,9 @@
     <Compile Include="Models\NewsData.cs">
       <DependentUpon>News_DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Core\NewsData.cs" />
+    <Compile Include="Models\Core\NewsList.cs" />
+    <Compile Include="Models\Core\NewsMain.cs" />
     <Compile Include="Models\News_DatabaseModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -248,7 +251,7 @@
       <DependentUpon>News_DatabaseModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\DBServer.cs" />
+    <Compile Include="Services\DBServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\News_Database.mdf" />
@@ -309,7 +312,9 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>

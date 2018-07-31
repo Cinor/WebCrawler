@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrawlerTest
+namespace Models
 {
     class NewsData
     {
+        /// <summary>
+        /// 日期
+        /// </summary>
+        public String Days { get; set; }
         /// <summary>
         /// 時間
         /// </summary>
