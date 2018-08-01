@@ -15,10 +15,9 @@ namespace WebCrawler.Models
     public partial class NewsData
     {
         public int Id { get; set; }
-        public string Days { get; set; }
-        public string Time { get; set; }
+        public Nullable<System.DateTime> Time { get; set; }
         public string Types { get; set; }
-        public string Link { get; set; }
+        public string Links { get; set; }
         public string Head { get; set; }
         public string Content { get; set; }
     }

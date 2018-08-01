@@ -34,6 +34,7 @@ namespace Models
 
             link = link + page.ToString();
 
+            
             try
             {
                 HtmlWeb web = new HtmlWeb();
@@ -55,17 +56,16 @@ namespace Models
                     {
                         NewsData data = new NewsData();
                         var Data = Regex.Split(nsd.InnerText.Replace(" ", "").Replace("\r\n\r\n", ""), "\r\n");
-                        //新聞 年/月/日 時:分
-                        data.Days = newsList.Days + " " + Data[0];
-                        //抓取時間:時分
-                        data.Time = Data[0];
+                        //新聞時間 年/月/日 時:分
+                        data.Time = Convert.ToDateTime((newsList.Days + " " + Data[0]).ToString());
+                       // data.Time = (newsList.Days + " " + Data[0]).ToString();
                         //抓取類型
                         data.Types = Data[1];
                         //抓取網址
-                        var newlink = nsd.SelectSingleNode("./a").Attributes["href"].Value;
-                        data.Link = newlink;
+                        var newlinks = nsd.SelectSingleNode("./a").Attributes["href"].Value;
+                        data.Links = newlinks;
                         //抓取內文
-                        data.Content = GetNewsContent(newlink);
+                        data.Content = GetNewsContent(newlinks);
                         //抓取標題
                         data.Head = Data[2];
 

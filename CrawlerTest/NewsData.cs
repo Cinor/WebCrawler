@@ -11,11 +11,7 @@ namespace Models
         /// <summary>
         /// 日期
         /// </summary>
-        public String Days { get; set; }
-        /// <summary>
-        /// 時間
-        /// </summary>
-        public String Time { get; set; }
+        public DateTime Time { get; set; }
         /// <summary>
         /// 類型
         /// </summary>
@@ -23,7 +19,7 @@ namespace Models
         /// <summary>
         /// 網址
         /// </summary>
-        public String Link { get; set; }
+        public String Links { get; set; }
         /// <summary>
         /// 標題
         /// </summary>
