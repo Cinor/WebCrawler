@@ -8,6 +8,7 @@ using System.IO;
 using System.Net;
 using System.Xml;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Models
 {
@@ -70,6 +71,8 @@ namespace Models
                         data.Head = Data[2];
 
                         newsData.Add(data);
+
+                        Thread.Sleep(1);
                     }
                     newsList.GetList = newsData;
                     NewsDataList.Add(newsList);

@@ -5,7 +5,7 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="News_DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="NewsData">
+        <EntityType Name="NewsDataDB">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -17,16 +17,16 @@
           <Property Name="Content" Type="nvarchar(max)" />
         </EntityType>
         <EntityContainer Name="News_DatabaseModelStoreContainer">
-          <EntitySet Name="NewsData" EntityType="Self.NewsData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewsDataDB" EntityType="Self.NewsDataDB" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="News_DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="News_DatabaseEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="NewsData" EntityType="News_DatabaseModel.NewsData" />
+          <EntitySet Name="NewsDataDB" EntityType="News_DatabaseModel.NewsDataDB" />
         </EntityContainer>
-        <EntityType Name="NewsData">
+        <EntityType Name="NewsDataDB">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -43,9 +43,9 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="News_DatabaseModelStoreContainer" CdmEntityContainer="News_DatabaseEntities">
-          <EntitySetMapping Name="NewsData">
-            <EntityTypeMapping TypeName="News_DatabaseModel.NewsData">
-              <MappingFragment StoreEntitySet="NewsData">
+          <EntitySetMapping Name="NewsDataDB">
+            <EntityTypeMapping TypeName="News_DatabaseModel.NewsDataDB">
+              <MappingFragment StoreEntitySet="NewsDataDB">
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Head" ColumnName="Head" />
                 <ScalarProperty Name="Links" ColumnName="Links" />

@@ -25,6 +25,6 @@ namespace WebCrawler.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<NewsData> NewsData { get; set; }
+        public virtual DbSet<NewsDataDB> NewsDataDB { get; set; }
     }
 }
