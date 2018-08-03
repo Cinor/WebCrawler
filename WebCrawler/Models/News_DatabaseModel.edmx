@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Time" Type="datetime" />
           <Property Name="Types" Type="nchar" MaxLength="10" />
           <Property Name="Links" Type="nvarchar(max)" />
@@ -30,7 +30,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Time" Type="DateTime" Precision="3" />
           <Property Name="Types" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Links" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />

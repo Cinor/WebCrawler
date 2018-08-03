@@ -1,0 +1,60 @@
+﻿@model WebCrawler.ViewModel.NewsList
+
+@{
+    ViewBag.Title = "ViewNews";
+}
+
+<h2>View</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GetList.FirstOrDefault().Time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GetList.FirstOrDefault().Types)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GetList.FirstOrDefault().Head)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GetList.FirstOrDefault().Links)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GetList.FirstOrDefault().Content)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var List in Model.GetList)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => List.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => List.Types)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => List.Head)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => List.Links)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => List.Content)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = List.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = List.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = List.ID })
+            </td>
+        </tr>
+
+    }
+
+</table>

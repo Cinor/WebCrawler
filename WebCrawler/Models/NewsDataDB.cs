@@ -14,7 +14,7 @@ namespace WebCrawler.Models
     
     public partial class NewsDataDB
     {
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
         public string Types { get; set; }
         public string Links { get; set; }

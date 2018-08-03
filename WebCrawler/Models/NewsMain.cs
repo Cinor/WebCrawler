@@ -9,6 +9,8 @@ using System.Net;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Threading;
+using WebCrawler.ViewModel;
+using WebCrawler.Services;
 
 namespace WebCrawler.Models
 {
@@ -77,7 +79,9 @@ namespace WebCrawler.Models
                     newsList.GetList = newsData;
                     NewsDataList.Add(newsList);
                 }
-                
+
+                DBService dBServer = new DBService();
+                dBServer.InsertNewsData(newsList.GetList);
 
             }
             catch (Exception)
