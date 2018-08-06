@@ -1,4 +1,6 @@
-﻿@model WebCrawler.ViewModel.News
+﻿@using PagedList
+@using PagedList.Mvc
+@model WebCrawler.ViewModel.News
 
 @{
     ViewBag.Title = "ViewNews";
@@ -7,8 +9,22 @@
 <h2>View</h2>
 
 <p>
-    @*@Html.ActionLink("Create New", "Create")*@
+    @using (Html.BeginForm("ViewNews", "News", FormMethod.Get))
+    {
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div>
+                @Html.Label("類型選擇: ") @Html.DropDownList("Types_list", null, "請選擇", new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.Label("內文關鍵字搜尋: ") @Html.TextBox("Keyword", "", new { @class = "form-control" })
+            </div>
+            <input type="submit" value="查詢" class="btn btn-info" />
+        </div>
+
+        @*@Html.ActionLink("Create New", "Create")*@
+    }
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -23,9 +39,9 @@
         <th>
             @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Links)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Content)
-        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Content)
+            </th>*@
         <th></th>
     </tr>
 
@@ -45,16 +61,22 @@
             <td>
                 @Html.DisplayFor(modelItem => List.Links)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => List.Content)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = List.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = List.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = List.ID })
-            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => List.Content)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = List.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = List.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = List.ID })
+                </td>*@
         </tr>
 
     }
 
 </table>
+
+<form method="get">
+    @Html.PagedListPager((IPagedList)Model.NewsList, page => Url.Action("ViewNews", new { page })
+    + "&Types_list=" + Request.Params["Types"]
+    + "&Keyword=" + Request.Params["Keyword"])
+</form>

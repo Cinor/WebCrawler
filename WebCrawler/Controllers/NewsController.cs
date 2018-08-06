@@ -18,20 +18,18 @@ namespace WebCrawler.Controllers
             //orderLibrary.Download();
 
             var news = orderLibrary.getOrderDatas();
-            news.Days = DateTime.Now.ToString();
 
             return View(news);
         }
 
-        //[HttpPost]
-        //public ActionResult ViewNews()
-        //{
+        [HttpGet]
+        public ActionResult ViewNews(string Types, string Keyword, int page)
+        {
+            int currentPage = page < 1 ? 1 : page;
+            var news = orderLibrary.getNewsDatasByCondition(Types, Keyword, currentPage);
 
-        //    var news = orderLibrary.getOrderDatas();
-        //    news.Days = DateTime.Now.ToString();
-
-        //    return View(news);
-        //}
+            return View(news);
+        }
 
 
 
