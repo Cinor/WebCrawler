@@ -263,7 +263,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DBService.cs" />
-    <Compile Include="ViewModels\NewsList.cs" />
+    <Compile Include="ViewModels\News.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\News_Database.mdf" />

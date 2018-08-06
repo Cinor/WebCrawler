@@ -7,7 +7,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.ViewModel
 {
-    public class NewsList
+    public class News
     {
         /// <summary>
         /// 日期
@@ -16,7 +16,7 @@ namespace WebCrawler.ViewModel
         /// <summary>
         /// NewDataList
         /// </summary>
-        public List<NewsData> GetList { get; set; }
+        public List<NewsData> NewsList { get; set; }
 
     }
 }

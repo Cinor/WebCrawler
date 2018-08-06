@@ -11,17 +11,24 @@ namespace WebCrawler.Library
     public class OrderLibrary
     {
         DBService dbServer = new DBService();
+        
+        public void Download()
+        {
+            NewsMain newsMain = new NewsMain();
+            newsMain.Page = 10;
+            newsMain.DownloadNews();
+        }
 
 
-        public NewsList getOrderDatas()
+        public News getOrderDatas()
         {
             
             try
             {
 
-                NewsList newsList = new NewsList()
+                News newsList = new News()
                 {
-                    GetList = dbServer.SelectNewsData().ToList()
+                    NewsList = dbServer.SelectNewsData().ToList()
                 };
 
                 return newsList;
@@ -32,5 +39,18 @@ namespace WebCrawler.Library
                 throw;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newsDatas"></param>
+        public void saveOrderDatads(News newsDatas)
+        {
+            foreach (var item in newsDatas.NewsList)
+            {
+                dbServer.InsertNewsData(item);
+            }
+        }
+
     }
 }

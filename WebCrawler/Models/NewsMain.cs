@@ -10,26 +10,29 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using System.Threading;
 using WebCrawler.ViewModel;
-using WebCrawler.Services;
+using WebCrawler.Library;
+
 
 namespace WebCrawler.Models
 {
-    class NewsMain
+    public class NewsMain
     {
+        OrderLibrary orderLibrary = new OrderLibrary();
+
         public int Page { get; set; }
-        private List<NewsList> NewsDataList = new List<NewsList>();
+        private List<News> NewsDataList = new List<News>();
         
-        public void GetNews()
+        public void DownloadNews()
         {
             int p = 0;
             while ( p <= Page)
             {
-                GetNewsLink(p);
+                DownloadNewsData(p);
                 p++;
             }
         }
         
-        private void GetNewsLink(int page)
+        private void DownloadNewsData(int page)
         {
             string link;
 
@@ -48,7 +51,7 @@ namespace WebCrawler.Models
                 //新聞標題資料
                 var nodeData = doc.DocumentNode.SelectNodes("//div[@class='abdominis rlby clearmen']/ul[1]/li");
 
-                NewsList newsList = new NewsList();
+                News newsList = new News();
 
                 foreach (var nsh in nodeHead)
                 {
@@ -68,7 +71,7 @@ namespace WebCrawler.Models
                         var newlinks = nsd.SelectSingleNode("./a").Attributes["href"].Value;
                         data.Links = newlinks;
                         //抓取內文
-                        data.Content = GetNewsContent(newlinks);
+                        data.Content = DownloadNewsContent(newlinks);
                         //抓取標題
                         data.Head = Data[2];
 
@@ -76,12 +79,10 @@ namespace WebCrawler.Models
 
                         Thread.Sleep(1);
                     }
-                    newsList.GetList = newsData;
-                    NewsDataList.Add(newsList);
+                    newsList.NewsList = newsData;
                 }
 
-                DBService dBServer = new DBService();
-                dBServer.InsertNewsData(newsList.GetList);
+                orderLibrary.saveOrderDatads(newsList);
 
             }
             catch (Exception)
@@ -93,7 +94,7 @@ namespace WebCrawler.Models
 
         }
 
-        private String GetNewsContent(String Link)
+        private String DownloadNewsContent(String Link)
         {
             try
             {

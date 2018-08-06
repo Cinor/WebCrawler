@@ -15,7 +15,12 @@ namespace WebCrawler.Controllers
         // GET: News
         public ActionResult ViewNews()
         {
-            return View();
+            //orderLibrary.Download();
+
+            var news = orderLibrary.getOrderDatas();
+            news.Days = DateTime.Now.ToString();
+
+            return View(news);
         }
 
         //[HttpPost]

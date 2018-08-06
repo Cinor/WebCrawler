@@ -15,7 +15,6 @@ namespace Models
     class NewsMain
     {
         public int Page { get; set; }
-        private List<NewsList> NewsDataList = new List<NewsList>();
         
         public void GetNews()
         {
@@ -75,7 +74,7 @@ namespace Models
                         Thread.Sleep(1);
                     }
                     newsList.GetList = newsData;
-                    NewsDataList.Add(newsList);
+
                 }
                 
 
