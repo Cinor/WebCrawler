@@ -1,15 +1,15 @@
 ﻿@using PagedList
 @using PagedList.Mvc
-@model WebCrawler.ViewModel.News
+@model WebCrawler.Models.ViewModel.NewsViews
 
 @{
-    ViewBag.Title = "ViewNews";
+    ViewBag.Title = "新聞";
 }
 
 <h2>View</h2>
 
 <p>
-    @using (Html.BeginForm("ViewNews", "News", FormMethod.Get))
+    @using (Html.BeginForm("NewsView", "News", FormMethod.Get))
     {
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div>
@@ -76,7 +76,7 @@
 </table>
 
 <form method="get">
-    @Html.PagedListPager((IPagedList)Model.NewsList, page => Url.Action("ViewNews", new { page })
+    @Html.PagedListPager((IPagedList)Model.NewsList, page => Url.Action("NewsView", new { page })
     + "&Types_list=" + Request.Params["Types"]
     + "&Keyword=" + Request.Params["Keyword"])
 </form>

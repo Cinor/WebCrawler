@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Web;
 using WebCrawler.Models;
+using WebCrawler.Models.ViewModel;
 
 namespace WebCrawler.Services
 {
@@ -13,15 +14,15 @@ namespace WebCrawler.Services
         /// 至資料庫取出所有NewsData資料
         /// </summary>
         /// <returns></returns>
-        public List<NewsData> SelectNewsData()
+        public List<News> SelectNewsData()
         {
-            List<NewsData> results = null;
+            List<News> results = null;
             using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
             {
                 try
                 {
                     results = (from DB in _nDB.NewsDataDB
-                               select new NewsData
+                               select new News
                                {
                                    Time = DB.Time,
                                    Types = DB.Types,
@@ -47,7 +48,7 @@ namespace WebCrawler.Services
         /// NewsData存入至資料庫中
         /// </summary>
         /// <param name="InsertNewData"></param>
-        public void InsertNewsData(NewsData InsertNewData)
+        public void InsertNewsData(News InsertNewData)
         {
 
             using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
@@ -82,7 +83,7 @@ namespace WebCrawler.Services
         /// 依據NewsData ID 更新資料庫資料
         /// </summary>
         /// <param name="updatanewsData"></param>
-        public void UpdataNewsData(NewsData updatanewsData)
+        public void UpdataNewsData(News updatanewsData)
         {
             using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
             {

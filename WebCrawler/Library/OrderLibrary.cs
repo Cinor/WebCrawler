@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using WebCrawler.Services;
 using WebCrawler.Models;
-using WebCrawler.ViewModel;
+using WebCrawler.Models.ViewModel;
 using PagedList;
 
 namespace WebCrawler.Library
@@ -24,7 +24,7 @@ namespace WebCrawler.Library
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<NewsData> getOrderDatas()
+        public List<Models.ViewModel.News> getOrderDatas()
         {            
             try
             {
@@ -45,7 +45,7 @@ namespace WebCrawler.Library
         /// <param name="Types">類型</param>
         /// <param name="Keyword">關鍵字</param>
         /// <returns></returns>
-        public News getNewsDatasByCondition(string Types, string Keyword , int currentPage)
+        public NewsViews getNewsDatasByCondition(string Types, string Keyword , int currentPage)
         {
 
             var DatasList = getOrderDatas();
@@ -55,7 +55,7 @@ namespace WebCrawler.Library
             try
             {
                 
-                News newsList = new News()
+                NewsViews newsList = new NewsViews()
                 {                    
                     NewsList = result.ToPagedList(currentPage, 20),
                     Types_list = DatasList.Where(x => !String.IsNullOrWhiteSpace(x.Types)).GroupBy(x => x.Types).Select(x => new System.Web.Mvc.SelectListItem { Text = x.Key, Value = x.Key }).ToList()
@@ -78,11 +78,11 @@ namespace WebCrawler.Library
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        public News getOrdersDatasbyContent(String content)
+        public NewsViews getOrdersDatasbyContent(String content)
         {
             try
             {
-                News newsList = new News()
+                NewsViews newsList = new NewsViews()
                 {
                     //NewsList = dbServer.SelectNewsData().Where(b => b.Content == content).ToList()
                 };
@@ -101,9 +101,9 @@ namespace WebCrawler.Library
         /// 
         /// </summary>
         /// <param name="newsDatas"></param>
-        public void saveOrderDatads(News newsDatas)
+        public void saveOrderDatads(List<Models.ViewModel.News> newsDatas)
         {
-            foreach (var item in newsDatas.NewsList)
+            foreach (var item in newsDatas)
             {
                 dbServer.InsertNewsData(item);
             }

@@ -9,8 +9,9 @@ using System.Net;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Threading;
-using WebCrawler.ViewModel;
+using WebCrawler.Models.ViewModel;
 using WebCrawler.Library;
+using PagedList;
 
 
 namespace WebCrawler.Models
@@ -20,7 +21,6 @@ namespace WebCrawler.Models
         OrderLibrary orderLibrary = new OrderLibrary();
 
         public int Page { get; set; }
-        private List<News> NewsDataList = new List<News>();
         
         public void DownloadNews()
         {
@@ -51,38 +51,39 @@ namespace WebCrawler.Models
                 //新聞標題資料
                 var nodeData = doc.DocumentNode.SelectNodes("//div[@class='abdominis rlby clearmen']/ul[1]/li");
 
-                News newsList = new News();
+                NewsViews newsList = new NewsViews();
+
+                List<News> newsData = new List<News>();
 
                 foreach (var nsh in nodeHead)
                 {
                     newsList.Days = nsh.InnerText;
-
-                    List<NewsData> newsData = new List<NewsData>();
+                                        
                     foreach (var nsd in nodeData)
                     {
-                        NewsData data = new NewsData();
+                        News news = new News();
                         var Data = Regex.Split(nsd.InnerText.Replace(" ", "").Replace("\r\n\r\n", ""), "\r\n");
                         //新聞時間 年/月/日 時:分
-                        data.Time = Convert.ToDateTime((newsList.Days + " " + Data[0]).ToString());
+                        news.Time = Convert.ToDateTime((newsList.Days + " " + Data[0]).ToString());
                        // data.Time = (newsList.Days + " " + Data[0]).ToString();
                         //抓取類型
-                        data.Types = Data[1];
+                        news.Types = Data[1];
                         //抓取網址
                         var newlinks = nsd.SelectSingleNode("./a").Attributes["href"].Value;
-                        data.Links = newlinks;
+                        news.Links = newlinks;
                         //抓取內文
-                        data.Content = DownloadNewsContent(newlinks);
+                        news.Content = DownloadNewsContent(newlinks);
                         //抓取標題
-                        data.Head = Data[2];
+                        news.Head = Data[2];
 
-                        newsData.Add(data);
+                        newsData.Add(news);
 
                         Thread.Sleep(1);
                     }
-                    newsList.NewsList = newsData;
+                    //newsList.NewsList = newsData;
                 }
 
-                orderLibrary.saveOrderDatads(newsList);
+                orderLibrary.saveOrderDatads(newsData);
 
             }
             catch (Exception)

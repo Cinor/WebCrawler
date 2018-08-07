@@ -1,13 +1,35 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
-namespace WebCrawler.Models
+namespace WebCrawler.Models.ViewModel
 {
-    public class NewsData
+    public class NewsViews
+    {
+        /// <summary>
+        /// NewsDataList
+        /// </summary>
+        public IPagedList<News> NewsList { get; set; }
+
+        /// <summary>
+        /// 日期
+        /// </summary>
+        public String Days { get; set; }
+
+        /// <summary>
+        /// 類別
+        /// </summary>
+        public List<SelectListItem> Types_list { get; set; }
+        
+    }
+
+
+    public class News
     {
         /// <summary>
         /// ID
@@ -41,4 +63,5 @@ namespace WebCrawler.Models
         public String Content { get; set; }
 
     }
+
 }
