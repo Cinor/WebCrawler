@@ -77,6 +77,6 @@
 
 <form method="get">
     @Html.PagedListPager((IPagedList)Model.NewsList, page => Url.Action("NewsView", new { page })
-    + "&Types_list=" + Request.Params["Types"]
+    + "&Types_list=" + Request.Params["Types_list"]
     + "&Keyword=" + Request.Params["Keyword"])
 </form>

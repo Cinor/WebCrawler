@@ -50,8 +50,8 @@ namespace WebCrawler.Library
 
             var DatasList = getOrderDatas();
             var result = DatasList.OrderBy(c => c.Time)
-                        .Where(c => string.IsNullOrEmpty(Types) ? true : c.Types == Types)
-                        .Where(c => string.IsNullOrEmpty(Keyword) ? true : c.Content == Keyword).ToList();
+                        .Where(c => string.IsNullOrEmpty(Types) ? true : c.Types == Types)                        
+                        .Where(c => string.IsNullOrEmpty(Keyword) ? true : c.Content.Contains(Keyword)).ToList();
             try
             {
                 

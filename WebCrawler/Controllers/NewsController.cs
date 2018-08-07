@@ -23,10 +23,10 @@ namespace WebCrawler.Controllers
         }
 
         [HttpGet]
-        public ActionResult NewsView(string Types, string Keyword, int page = 1)
+        public ActionResult NewsView(string Types_list, string Keyword, int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
-            var news = orderLibrary.getNewsDatasByCondition(Types, Keyword, currentPage);
+            var news = orderLibrary.getNewsDatasByCondition(Types_list, Keyword, currentPage);
 
             return View(news);
         }
