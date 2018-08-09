@@ -13,10 +13,14 @@ namespace WebCrawler.Library
     {
         DBService dbServer = new DBService();
         
-        public void Download()
+        /// <summary>
+        /// 依據頁碼決定下載的新聞數量
+        /// </summary>
+        /// <param name="page">頁碼</param>
+        public void Download(int page)
         {
             NewsMain newsMain = new NewsMain();
-            newsMain.Page = 10;
+            newsMain.Page = page;
             newsMain.DownloadNews();
         }
 
@@ -62,7 +66,8 @@ namespace WebCrawler.Library
             var DatasList = getOrderDatas();
             var result = DatasList.OrderBy(c => c.Time)
                         .Where(c => string.IsNullOrEmpty(Types) ? true : c.Types == Types)                        
-                        .Where(c => string.IsNullOrEmpty(Keyword) ? true : c.Content.Contains(Keyword)).ToList();
+                        .Where(c => string.IsNullOrEmpty(Keyword) ? true : c.Content.Contains(Keyword))
+                        .OrderByDescending( c => c.Time ).ToList();
             try
             {
                 
@@ -91,13 +96,13 @@ namespace WebCrawler.Library
         {
             foreach (var item in newsDatas)
             {
+                News_DatabaseEntities _nDB = new News_DatabaseEntities();
 
-                if (true)
+                if (! _nDB.NewsDataDB.Any(b => b.Links == item.Links))
                 {
-
+                    dbServer.InsertNewsData(item);
                 }
-
-                dbServer.InsertNewsData(item);
+                
             }
         }
 

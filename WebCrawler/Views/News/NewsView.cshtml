@@ -13,6 +13,10 @@
     {
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div>
+                @Html.ActionLink("下載新聞", "DownloadNews", "News", new { @class = "btn btn-primary" })
+            </div>
+
+            <div>
                 @Html.Label("類型選擇: ") @Html.DropDownList("Types_list", null, "請選擇", new { @class = "form-control" })
             </div>
             <div>
@@ -21,6 +25,7 @@
             <input type="submit" value="查詢" class="btn btn-info" />
         </div>
 
+
         @*@Html.ActionLink("Create New", "Create")*@
     }
 </p>
@@ -28,8 +33,8 @@
 <table class="table">
     <tr>
         @*<th>
-            @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Id)
-        </th>*@
+                @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Id)
+            </th>*@
         <th>
             @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Time)
         </th>
@@ -39,12 +44,12 @@
         <th>
             @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Head)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Links)
-        </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Content)
-        </th>*@
+                @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Links)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Content)
+                </th>*@
         <th></th>
     </tr>
 
@@ -53,8 +58,8 @@
 
         <tr>
             @*<td>
-                @Html.DisplayFor(modelItem => List.Id)
-            </td>*@
+                    @Html.DisplayFor(modelItem => List.Id)
+                </td>*@
             <td>
                 @Html.DisplayFor(modelItem => List.Time)
             </td>
@@ -64,16 +69,16 @@
             <td>
                 @Html.DisplayFor(modelItem => List.Head)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => List.Links)
-            </td>
             @*<td>
-                    @Html.DisplayFor(modelItem => List.Content)
+                    @Html.DisplayFor(modelItem => List.Links)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => List.Content)
                 </td>*@
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { id = List.ID }) |*@
-                @Html.ActionLink("Details", "Details", new { id = List.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = List.Id })
+                @Html.ActionLink("Details", "Details", new { id = List.Id })
+                @*@Html.ActionLink("Delete", "Delete", new { id = List.Id })*@
             </td>
         </tr>
 
