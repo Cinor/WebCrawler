@@ -1,0 +1,58 @@
+﻿@model WebCrawler.Models.ViewModel.News
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>NewsDetailsView</h2>
+
+<div>
+    <h4>News</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Types)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Types)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Links)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Links)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Head)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Head)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")*@
+</p>

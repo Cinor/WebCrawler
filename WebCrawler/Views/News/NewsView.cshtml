@@ -27,6 +27,9 @@
 
 <table class="table">
     <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Id)
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Time)
         </th>
@@ -40,8 +43,8 @@
             @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Links)
         </th>
         @*<th>
-                @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Content)
-            </th>*@
+            @Html.DisplayNameFor(model => model.NewsList.FirstOrDefault().Content)
+        </th>*@
         <th></th>
     </tr>
 
@@ -49,6 +52,9 @@
     {
 
         <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => List.Id)
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => List.Time)
             </td>
@@ -63,12 +69,12 @@
             </td>
             @*<td>
                     @Html.DisplayFor(modelItem => List.Content)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = List.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = List.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = List.ID })
                 </td>*@
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = List.ID }) |*@
+                @Html.ActionLink("Details", "Details", new { id = List.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = List.Id })
+            </td>
         </tr>
 
     }

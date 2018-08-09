@@ -32,6 +32,11 @@ namespace WebCrawler.Controllers
         }
 
 
+        public ActionResult Details(Guid ID)
+        {
+            var news = orderLibrary.getNewsByID(ID);
+            return View(news);
+        }
 
     }
 }

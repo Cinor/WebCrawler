@@ -35,7 +35,7 @@ namespace WebCrawler.Models.ViewModel
         /// ID
         /// </summary>
         [DisplayName("ID")]
-        public System.Guid ID { get; set; }
+        public System.Guid Id { get; set; }
         /// <summary>
         /// 日期
         /// </summary>

@@ -28,7 +28,7 @@ namespace WebCrawler.Library
         {            
             try
             {
-                var result = dbServer.SelectNewsData().ToList();
+                var result = dbServer.SelectAllNews().ToList();
 
                 return result;
             }
@@ -38,6 +38,17 @@ namespace WebCrawler.Library
                 throw;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public News getNewsByID(Guid ID)
+        {
+            return dbServer.SelectNewsById(ID);
+        }
+
 
         /// <summary>
         /// 依據類型、關鍵字等條件進行Selcect
@@ -72,39 +83,20 @@ namespace WebCrawler.Library
         }
 
 
-
-        /// <summary>
-        /// 根據"關鍵字"搜尋內文
-        /// </summary>
-        /// <param name="content"></param>
-        /// <returns></returns>
-        public NewsViews getOrdersDatasbyContent(String content)
-        {
-            try
-            {
-                NewsViews newsList = new NewsViews()
-                {
-                    //NewsList = dbServer.SelectNewsData().Where(b => b.Content == content).ToList()
-                };
-
-                return newsList;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="newsDatas"></param>
-        public void saveOrderDatads(List<Models.ViewModel.News> newsDatas)
+        public void saveNewsData(List<Models.ViewModel.News> newsDatas)
         {
             foreach (var item in newsDatas)
             {
+
+                if (true)
+                {
+
+                }
+
                 dbServer.InsertNewsData(item);
             }
         }

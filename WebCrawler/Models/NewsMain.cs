@@ -36,6 +36,7 @@ namespace WebCrawler.Models
         {
             string link;
 
+            //蘋果日報網址
             link = "https://tw.appledaily.com/new/realtime/";
 
             link = link + page.ToString();
@@ -83,7 +84,7 @@ namespace WebCrawler.Models
                     //newsList.NewsList = newsData;
                 }
 
-                orderLibrary.saveOrderDatads(newsData);
+                orderLibrary.saveNewsData(newsData);
 
             }
             catch (Exception)

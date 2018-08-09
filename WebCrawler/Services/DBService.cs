@@ -14,7 +14,7 @@ namespace WebCrawler.Services
         /// 至資料庫取出所有NewsData資料
         /// </summary>
         /// <returns></returns>
-        public List<News> SelectNewsData()
+        public List<News> SelectAllNews()
         {
             List<News> results = null;
             using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
@@ -24,6 +24,7 @@ namespace WebCrawler.Services
                     results = (from DB in _nDB.NewsDataDB
                                select new News
                                {
+                                   Id = DB.Id,
                                    Time = DB.Time,
                                    Types = DB.Types,
                                    Head = DB.Head,
@@ -42,6 +43,41 @@ namespace WebCrawler.Services
                     throw;
                 }
             }
+        }
+
+        /// <summary>
+        /// 依據ID進行Select
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public News SelectNewsById(Guid ID)
+        {
+            using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
+            {
+                if (_nDB.NewsDataDB.Any(b => b.Id == ID))
+                {
+                    var result = _nDB.NewsDataDB.Where(b => b.Id == ID).Single();
+
+                    News news = new News()
+                    {
+                        Id = result.Id,
+                        Time = result.Time,
+                        Types = result.Types,
+                        Head = result.Head,
+                        Links = result.Links,
+                        Content = result.Content
+                    };
+
+                    return news;
+                }
+                else
+                {
+                    return null;
+                }
+
+
+            }
+
         }
 
         /// <summary>
@@ -80,24 +116,24 @@ namespace WebCrawler.Services
         }
 
         /// <summary>
-        /// 依據NewsData ID 更新資料庫資料
+        /// 依據NewsData的ID進行更新資料作業
         /// </summary>
-        /// <param name="updatanewsData"></param>
-        public void UpdataNewsData(News updatanewsData)
+        /// <param name="updatanews"></param>
+        public void UpdataNewsData(News updatanews)
         {
             using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
             {
 
-                if (_nDB.NewsDataDB.Any(d => d.Id == updatanewsData.ID))
+                if (_nDB.NewsDataDB.Any(d => d.Id == updatanews.Id))
                 {
-                    var DB_News = _nDB.NewsDataDB.Where(d => d.Id == updatanewsData.ID).Single();
+                    var DB_News = _nDB.NewsDataDB.Where(d => d.Id == updatanews.Id).Single();
 
-                    DB_News.Id = updatanewsData.ID;
-                    DB_News.Time = updatanewsData.Time;
-                    DB_News.Types = updatanewsData.Types;
-                    DB_News.Head = updatanewsData.Head;
-                    DB_News.Links = updatanewsData.Links;
-                    DB_News.Content = updatanewsData.Content;
+                    DB_News.Id = updatanews.Id;
+                    DB_News.Time = updatanews.Time;
+                    DB_News.Types = updatanews.Types;
+                    DB_News.Head = updatanews.Head;
+                    DB_News.Links = updatanews.Links;
+                    DB_News.Content = updatanews.Content;
 
 
                     try

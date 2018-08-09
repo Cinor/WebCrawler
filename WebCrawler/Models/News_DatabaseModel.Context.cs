@@ -26,5 +26,7 @@ namespace WebCrawler.Models
         }
     
         public virtual DbSet<NewsDataDB> NewsDataDB { get; set; }
+
+        public System.Data.Entity.DbSet<WebCrawler.Models.ViewModel.News> News { get; set; }
     }
 }
