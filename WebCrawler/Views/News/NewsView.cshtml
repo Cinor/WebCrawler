@@ -13,7 +13,7 @@
     {
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div>
-                @Html.ActionLink("下載新聞", "DownloadNews", "News", new { @class = "btn btn-primary" })
+                @Html.ActionLink("下載蘋果日報新聞", "DownloadNews", "News", new { @class = "btn btn-primary" })
             </div>
 
             <div>
@@ -53,6 +53,7 @@
         <th></th>
     </tr>
 
+
     @foreach (var List in Model.NewsList)
     {
 
@@ -91,3 +92,20 @@
     + "&Types_list=" + Request.Params["Types_list"]
     + "&Keyword=" + Request.Params["Keyword"])
 </form>
+
+
+
+@*<td>  摺疊內文
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                展開
+            </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
+            <div class="accordion-inner">
+                @Html.DisplayFor(modelItem => List.Content)
+            </div>
+        </div>
+    </div>
+</td>*@

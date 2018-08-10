@@ -12,12 +12,12 @@ namespace WebCrawler.Controllers
     {
         OrderLibrary orderLibrary = new OrderLibrary();
 
-        // GET: News
+        
         public ActionResult DownloadNews()
         {
             orderLibrary.Download(10);
 
-            return View();
+            return View("NewsView");
         }
 
         [HttpGet]

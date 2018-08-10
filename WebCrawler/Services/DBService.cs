@@ -94,10 +94,10 @@ namespace WebCrawler.Services
                 {
                     Id = Guid.NewGuid(),
                     Time = InsertNewData.Time,
-                    Types = InsertNewData.Types,
-                    Head = InsertNewData.Head,
-                    Links = InsertNewData.Links,
-                    Content = InsertNewData.Content
+                    Types = ( InsertNewData.Types.Length > 10 ) ? InsertNewData.Types.Substring(0,2) : InsertNewData.Types,
+                    Head = (string.IsNullOrEmpty(InsertNewData.Head)) ? null : InsertNewData.Head,
+                    Links = (string.IsNullOrEmpty(InsertNewData.Links)) ? null : InsertNewData.Links,
+                    Content = (string.IsNullOrEmpty(InsertNewData.Content)) ? null : InsertNewData.Content
                 };
 
                 try
@@ -143,7 +143,7 @@ namespace WebCrawler.Services
                     }
                     catch (Exception)
                     {
-
+                        
                         throw;
                     }
                 }
