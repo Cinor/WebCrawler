@@ -17,7 +17,7 @@ namespace WebCrawler.Controllers
         {
             orderLibrary.Download(10);
 
-            return View("NewsView");
+            return Redirect("/News/NewsView/");
         }
 
         [HttpGet]
