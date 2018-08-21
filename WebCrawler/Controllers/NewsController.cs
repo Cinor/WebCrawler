@@ -12,10 +12,9 @@ namespace WebCrawler.Controllers
     {
         OrderLibrary orderLibrary = new OrderLibrary();
 
-        
         public ActionResult DownloadNews()
         {
-            orderLibrary.Download(10);
+            orderLibrary.Download(5);
 
             return Redirect("/News/NewsView/");
         }

@@ -8,6 +8,17 @@
 
 <h2>View</h2>
 
+@*<label>PageNumber:</label><input type="text" id="txtName" name="txtName" />
+<script>
+    $('#btnCall').click(function () {
+        $.ajax({
+            url: "@Url.Action("DownloadNews", "News")",
+            data: { Pagenumber: 10 },
+            type: "POST"
+        });
+    });
+</script>*@
+
 <p>
     @using (Html.BeginForm("NewsView", "News", FormMethod.Get))
     {
@@ -91,21 +102,23 @@
     @Html.PagedListPager((IPagedList)Model.NewsList, page => Url.Action("NewsView", new { page })
     + "&Types_list=" + Request.Params["Types_list"]
     + "&Keyword=" + Request.Params["Keyword"])
+    @*+ "&Pagenumber=" + Request.Params["Pagenumber"])*@
 </form>
 
 
 
 @*<td>  摺疊內文
-    <div class="accordion-group">
-        <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                展開
-            </a>
-        </div>
-        <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
-            <div class="accordion-inner">
-                @Html.DisplayFor(modelItem => List.Content)
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                    展開
+                </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
+                <div class="accordion-inner">
+                    @Html.DisplayFor(modelItem => List.Content)
+                </div>
             </div>
         </div>
-    </div>
-</td>*@
+    </td>*@
+
