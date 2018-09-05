@@ -21,17 +21,17 @@ namespace WebCrawler.Models
         OrderLibrary orderLibrary = new OrderLibrary();
 
         public int Page { get; set; }
-        
+
         public void DownloadNews()
         {
             int p = 0;
-            while ( p <= Page)
+            while (p <= Page)
             {
                 DownloadNewsData(p);
                 p++;
             }
         }
-        
+
         private void DownloadNewsData(int page)
         {
             string link;
@@ -40,48 +40,44 @@ namespace WebCrawler.Models
             link = "https://tw.appledaily.com/new/realtime/";
 
             link = link + page.ToString();
-
             
             try
             {
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(link);
 
-                //項目名稱
-                var nodeHead = doc.DocumentNode.SelectNodes("//div[@class='abdominis rlby clearmen']/h1[1]");
-                //新聞標題資料
+                //新聞資料 (網址 + 時間 + 類型 )
                 var nodeData = doc.DocumentNode.SelectNodes("//div[@class='abdominis rlby clearmen']/ul[1]/li");
 
                 NewsViews newsList = new NewsViews();
 
                 List<News> newsData = new List<News>();
 
-                foreach (var nsh in nodeHead)
+                foreach (var nsd in nodeData)
                 {
-                    newsList.Days = nsh.InnerText;
-                                        
-                    foreach (var nsd in nodeData)
-                    {
-                        News news = new News();
-                        var Data = Regex.Split(nsd.InnerText.Replace(" ", "").Replace("\r\n\r\n", ""), "\r\n");
-                        //新聞時間 年/月/日 時:分
-                        news.Time = Convert.ToDateTime((newsList.Days + " " + Data[0]).ToString());
-                       // data.Time = (newsList.Days + " " + Data[0]).ToString();
-                        //抓取類型
-                        news.Types = Data[1];
-                        //抓取網址
-                        var newlinks = nsd.SelectSingleNode("./a").Attributes["href"].Value;
-                        news.Links = newlinks;
-                        //抓取內文
-                        news.Content = DownloadNewsContent(newlinks);
-                        //抓取標題
-                        news.Head = Data[2];
+                    News news = new News();
 
-                        newsData.Add(news);
+                    //抓取類型
+                    news.Types = nsd.SelectSingleNode("./a/h2").InnerText;
 
-                        Thread.Sleep(1);
-                    }
-                    //newsList.NewsList = newsData;
+                    //抓取網址
+                    var newlinks = nsd.SelectSingleNode("./a").Attributes["href"].Value;
+                    news.Links = newlinks;
+
+                    //抓取內文
+                    var DNC = DownloadNewsContent(newlinks);
+                    news.Content = DNC["新聞內文"];
+
+                    //新聞時間 -> 年/月/日 + 時:分
+                    news.Time = Convert.ToDateTime(DNC["內文時間"].Substring(5));
+
+                    //抓取標題
+                    news.Head = nsd.SelectSingleNode("./a/h1").InnerText;
+                    //news.Head = DNC["內文標題"];
+
+                    newsData.Add(news);
+
+                    Thread.Sleep(1);
                 }
 
                 orderLibrary.saveNewsData(newsData);
@@ -92,25 +88,33 @@ namespace WebCrawler.Models
 
                 throw;
             }
-                
+
 
         }
 
-        private String DownloadNewsContent(String Link)
+        private Dictionary<string, string> DownloadNewsContent(String Link)
         {
             try
             {
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(Link);
+                Dictionary<string, string> DNContent = new Dictionary<string, string>();
 
-                //新聞標題
+                /*
+                //內文標題
                 var nodeContentHead = doc.DocumentNode.SelectNodes("//article[@class='ndArticle_leftColumn']/hgroup/h1");
-                //新聞內文
-                var nodeContentData = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_content clearmen']/div/p");
+                DNContent.Add("內文標題", nodeContentHead);
+                */
 
-                String nodeContent = nodeContentData.InnerText;
-                
-                return nodeContent;
+                //內文時間 年/月/日 時:分
+                var nodeContentTime = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_leftColumn']/hgroup/div[@class='ndArticle_creat']").InnerText;
+                DNContent.Add("內文時間", nodeContentTime);
+
+                //內文內容
+                var nodeContentData = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_content clearmen']/div/p").InnerText;
+                DNContent.Add("新聞內文", nodeContentData);
+
+                return DNContent;
             }
             catch (Exception)
             {
