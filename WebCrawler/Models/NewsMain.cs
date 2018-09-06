@@ -12,7 +12,7 @@ using System.Threading;
 using WebCrawler.Models.ViewModel;
 using WebCrawler.Library;
 using PagedList;
-
+using System.Diagnostics;
 
 namespace WebCrawler.Models
 {
@@ -24,10 +24,19 @@ namespace WebCrawler.Models
 
         public void DownloadNews()
         {
+            Stopwatch stopwatch = new Stopwatch();
             int p = 0;
             while (p <= Page)
             {
+                stopwatch.Start();
+
                 DownloadNewsData(p);
+
+                stopwatch.Stop();
+                TimeSpan ts = stopwatch.Elapsed;
+                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds,ts.Milliseconds / 10);
+                Console.WriteLine("RunTime " + elapsedTime);
+
                 p++;
             }
         }
@@ -57,6 +66,9 @@ namespace WebCrawler.Models
                 {
                     News news = new News();
 
+                    //建立key值
+                    news.Id = Guid.NewGuid();
+
                     //抓取類型
                     news.Types = nsd.SelectSingleNode("./a/h2").InnerText;
 
@@ -72,8 +84,8 @@ namespace WebCrawler.Models
                     news.Time = Convert.ToDateTime(DNC["內文時間"].Substring(5));
 
                     //抓取標題
-                    news.Head = nsd.SelectSingleNode("./a/h1").InnerText;
-                    //news.Head = DNC["內文標題"];
+                    //news.Head = nsd.SelectSingleNode("./a/h1").InnerText;
+                    news.Head = DNC["內文標題"];
 
                     newsData.Add(news);
 
@@ -83,10 +95,10 @@ namespace WebCrawler.Models
                 orderLibrary.saveNewsData(newsData);
 
             }
-            catch (Exception)
+            catch (System.IndexOutOfRangeException e)
             {
-
-                throw;
+                System.Console.WriteLine(e.Message);
+                throw new System.ArgumentOutOfRangeException("index parameter is out of range.", e);
             }
 
 
@@ -99,13 +111,11 @@ namespace WebCrawler.Models
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(Link);
                 Dictionary<string, string> DNContent = new Dictionary<string, string>();
-
-                /*
+                                
                 //內文標題
-                var nodeContentHead = doc.DocumentNode.SelectNodes("//article[@class='ndArticle_leftColumn']/hgroup/h1");
+                var nodeContentHead = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_leftColumn']/hgroup/h1").InnerText;
                 DNContent.Add("內文標題", nodeContentHead);
-                */
-
+                
                 //內文時間 年/月/日 時:分
                 var nodeContentTime = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_leftColumn']/hgroup/div[@class='ndArticle_creat']").InnerText;
                 DNContent.Add("內文時間", nodeContentTime);

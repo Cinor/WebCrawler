@@ -54,22 +54,30 @@ namespace Models
                     List<NewsData> newsData = new List<NewsData>();
                     foreach (var nsd in nodeData)
                     {
-                        NewsData data = new NewsData();
-                        var Data = Regex.Split(nsd.InnerText.Replace(" ", "").Replace("\r\n\r\n", ""), "\r\n");
-                        //新聞時間 年/月/日 時:分
-                        data.Time = Convert.ToDateTime((newsList.Days + " " + Data[0]).ToString());
-                       // data.Time = (newsList.Days + " " + Data[0]).ToString();
+                        NewsData news = new NewsData();
+
+                        //建立key值
+                        news.Id = Guid.NewGuid();
+
                         //抓取類型
-                        data.Types = Data[1];
+                        news.Types = nsd.SelectSingleNode("./a/h2").InnerText;
+
                         //抓取網址
                         var newlinks = nsd.SelectSingleNode("./a").Attributes["href"].Value;
-                        data.Links = newlinks;
-                        //抓取內文
-                        data.Content = GetNewsContent(newlinks);
-                        //抓取標題
-                        data.Head = Data[2];
+                        news.Links = newlinks;
 
-                        newsData.Add(data);
+                        //抓取內文
+                        var DNC = GetNewsContent(newlinks);
+                        news.Content = DNC["新聞內文"];
+
+                        //新聞時間 -> 年/月/日 + 時:分
+                        news.Time = Convert.ToDateTime(DNC["內文時間"].Substring(5));
+
+                        //抓取標題
+                        //news.Head = nsd.SelectSingleNode("./a/h1").InnerText;
+                        news.Head = DNC["內文標題"];
+
+                        newsData.Add(news);
 
                         Thread.Sleep(1);
                     }
@@ -88,25 +96,31 @@ namespace Models
 
         }
 
-        private String GetNewsContent(String Link)
+        public Dictionary<string, string> GetNewsContent(String Link)
         {
             try
             {
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(Link);
+                Dictionary<string, string> DNContent = new Dictionary<string, string>();
 
-                //新聞標題
-                var nodeContentHead = doc.DocumentNode.SelectNodes("//article[@class='ndArticle_leftColumn']/hgroup/h1");
-                //新聞內文
-                var nodeContentData = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_content clearmen']/div/p");
+                //內文標題
+                var nodeContentHead = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_leftColumn']/hgroup/h1").InnerText;
+                DNContent.Add("內文標題", nodeContentHead);
 
-                String nodeContent = nodeContentData.InnerText;
-                
-                return nodeContent;
+                //內文時間 年/月/日 時:分
+                var nodeContentTime = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_leftColumn']/hgroup/div[@class='ndArticle_creat']").InnerText;
+                DNContent.Add("內文時間", nodeContentTime);
+
+                //內文內容
+                var nodeContentData = doc.DocumentNode.SelectSingleNode("//article[@class='ndArticle_content clearmen']/div/p").InnerText;
+                DNContent.Add("新聞內文", nodeContentData);
+
+                return DNContent;
             }
             catch (Exception)
             {
-
+                
                 throw;
             }
 

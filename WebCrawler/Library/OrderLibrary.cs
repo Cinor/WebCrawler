@@ -12,7 +12,7 @@ namespace WebCrawler.Library
     public class OrderLibrary
     {
         DBService dbServer = new DBService();
-        
+
         /// <summary>
         /// 依據頁碼決定下載的新聞數量
         /// </summary>
@@ -29,7 +29,7 @@ namespace WebCrawler.Library
         /// </summary>
         /// <returns></returns>
         public List<Models.ViewModel.News> getOrderDatas()
-        {            
+        {
             try
             {
                 var result = dbServer.SelectAllNews().ToList();
@@ -60,21 +60,21 @@ namespace WebCrawler.Library
         /// <param name="Types">類型</param>
         /// <param name="Keyword">關鍵字</param>
         /// <returns></returns>
-        public NewsViews getNewsDatasByCondition(string Types, string Keyword , int currentPage)
+        public NewsViews getNewsDatasByCondition(string Types, string Keyword, int currentPage)
         {
 
             var DatasList = getOrderDatas();
             var result = DatasList.OrderByDescending(c => c.Time)
-                        .Where(c => string.IsNullOrEmpty(Types) ? true : c.Types == Types)                        
-                        .Where(c => string.IsNullOrEmpty(Keyword) ? true : ( string.IsNullOrEmpty(c.Content) ? true : c.Content.Contains(Keyword)))
+                        .Where(c => string.IsNullOrEmpty(Types) ? true : c.Types == Types)
+                        .Where(c => string.IsNullOrEmpty(Keyword) ? true : (string.IsNullOrEmpty(c.Content) ? true : c.Content.Contains(Keyword)))
                         .ToList();
 
-            
+
             try
             {
-                
+
                 NewsViews newsList = new NewsViews()
-                {                    
+                {
                     NewsList = result.ToPagedList(currentPage, 20),
                     Types_list = DatasList.Where(x => !String.IsNullOrWhiteSpace(x.Types)).GroupBy(x => x.Types).Select(x => new System.Web.Mvc.SelectListItem { Text = x.Key, Value = x.Key }).ToList()
                 };
@@ -91,21 +91,17 @@ namespace WebCrawler.Library
 
 
         /// <summary>
-        /// 
+        /// 寫入資料庫
         /// </summary>
         /// <param name="newsDatas"></param>
         public void saveNewsData(List<Models.ViewModel.News> newsDatas)
         {
+
             foreach (var item in newsDatas)
             {
-                News_DatabaseEntities _nDB = new News_DatabaseEntities();
-
-                if (! _nDB.NewsDataDB.Any(b => b.Links == item.Links))
-                {
-                    dbServer.InsertNewsData(item);
-                }
-                
+                dbServer.InsertNewsData(item);
             }
+
         }
 
     }

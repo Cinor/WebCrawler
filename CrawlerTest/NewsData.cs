@@ -8,6 +8,11 @@ namespace Models
 {
     class NewsData
     {
+
+        /// <summary>
+        /// ID
+        /// </summary>
+        public System.Guid Id { get; set; }
         /// <summary>
         /// 日期
         /// </summary>

@@ -81,7 +81,7 @@ namespace WebCrawler.Services
         }
 
         /// <summary>
-        /// NewsData存入至資料庫中
+        /// NewsData存入至資料庫中，存入前檢查是否重複
         /// </summary>
         /// <param name="InsertNewData"></param>
         public void InsertNewsData(News InsertNewData)
@@ -92,9 +92,9 @@ namespace WebCrawler.Services
 
                 NewsDataDB newsDataDB = new NewsDataDB
                 {
-                    Id = Guid.NewGuid(),
+                    Id = InsertNewData.Id,
                     Time = InsertNewData.Time,
-                    Types = ( InsertNewData.Types.Length > 10 ) ? InsertNewData.Types.Substring(0,2) : InsertNewData.Types,
+                    Types = (InsertNewData.Types.Length > 10) ? InsertNewData.Types.Substring(0, 2) : InsertNewData.Types,
                     Head = (string.IsNullOrEmpty(InsertNewData.Head)) ? null : InsertNewData.Head,
                     Links = (string.IsNullOrEmpty(InsertNewData.Links)) ? null : InsertNewData.Links,
                     Content = (string.IsNullOrEmpty(InsertNewData.Content)) ? null : InsertNewData.Content
@@ -102,8 +102,11 @@ namespace WebCrawler.Services
 
                 try
                 {
-                    _nDB.NewsDataDB.Add(newsDataDB);
-                    _nDB.SaveChanges();
+                    if (!_nDB.NewsDataDB.Any(b => b.Links == newsDataDB.Links))
+                    {
+                        _nDB.NewsDataDB.Add(newsDataDB);
+                        _nDB.SaveChanges();
+                    }
                 }
                 catch (Exception)
                 {
@@ -111,12 +114,14 @@ namespace WebCrawler.Services
                     throw;
                 }
 
+
             }
 
         }
 
         /// <summary>
         /// 依據NewsData的ID進行更新資料作業
+        /// (目前未使用)
         /// </summary>
         /// <param name="updatanews"></param>
         public void UpdataNewsData(News updatanews)
@@ -143,7 +148,7 @@ namespace WebCrawler.Services
                     }
                     catch (Exception)
                     {
-                        
+
                         throw;
                     }
                 }
