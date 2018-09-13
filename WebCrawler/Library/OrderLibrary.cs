@@ -17,11 +17,16 @@ namespace WebCrawler.Library
         /// 依據頁碼決定下載的新聞數量
         /// </summary>
         /// <param name="page">頁碼</param>
-        public void Download(int page)
+        public void Downloadpage(int page)
         {
             NewsMain newsMain = new NewsMain();
             newsMain.Page = page;
             newsMain.DownloadNews();
+
+            //System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(newsMain.DownloadNews));
+
+            //thread.Start();
+
         }
 
         /// <summary>

@@ -16,8 +16,17 @@
           <Property Name="Head" Type="nvarchar(max)" />
           <Property Name="Content" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="PoliticianTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Amount" Type="int" />
+        </EntityType>
         <EntityContainer Name="News_DatabaseModelStoreContainer">
           <EntitySet Name="NewsDataDB" EntityType="Self.NewsDataDB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PoliticianTable" EntityType="Self.PoliticianTable" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -25,6 +34,7 @@
       <Schema Namespace="News_DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="News_DatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="NewsDataDB" EntityType="News_DatabaseModel.NewsDataDB" />
+          <EntitySet Name="PoliticianTable" EntityType="News_DatabaseModel.PoliticianTable" />
         </EntityContainer>
         <EntityType Name="NewsDataDB">
           <Key>
@@ -36,6 +46,14 @@
           <Property Name="Links" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Head" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PoliticianTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -51,6 +69,15 @@
                 <ScalarProperty Name="Links" ColumnName="Links" />
                 <ScalarProperty Name="Types" ColumnName="Types" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PoliticianTable">
+            <EntityTypeMapping TypeName="News_DatabaseModel.PoliticianTable">
+              <MappingFragment StoreEntitySet="PoliticianTable">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

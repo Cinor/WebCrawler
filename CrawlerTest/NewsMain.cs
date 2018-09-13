@@ -96,6 +96,11 @@ namespace Models
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Link"></param>
+        /// <returns></returns>
         public Dictionary<string, string> GetNewsContent(String Link)
         {
             try
@@ -120,7 +125,7 @@ namespace Models
             }
             catch (Exception)
             {
-                
+                Console.WriteLine("網址：" + Link + "可能有無法抓取的因素，請檢查看看");
                 throw;
             }
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.IO;
 using System.Net;
@@ -19,23 +18,21 @@ namespace WebCrawler.Models
     public class NewsMain
     {
         OrderLibrary orderLibrary = new OrderLibrary();
+        //private BackgroundWorker bw = new BackgroundWorker();
 
         public int Page { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void DownloadNews()
         {
             Stopwatch stopwatch = new Stopwatch();
             int p = 0;
             while (p <= Page)
             {
-                stopwatch.Start();
 
                 DownloadNewsData(p);
-
-                stopwatch.Stop();
-                TimeSpan ts = stopwatch.Elapsed;
-                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds,ts.Milliseconds / 10);
-                Console.WriteLine("RunTime " + elapsedTime);
 
                 p++;
             }
@@ -98,7 +95,7 @@ namespace WebCrawler.Models
             catch (System.IndexOutOfRangeException e)
             {
                 System.Console.WriteLine(e.Message);
-                throw new System.ArgumentOutOfRangeException("index parameter is out of range.", e);
+                throw new System.ArgumentOutOfRangeException("陣列項目錯誤：", e);
             }
 
 
@@ -128,7 +125,7 @@ namespace WebCrawler.Models
             }
             catch (Exception)
             {
-
+                Console.WriteLine("網址："　+ Link + "可能有無法抓取的因素，請檢查看看");
                 throw;
             }
 

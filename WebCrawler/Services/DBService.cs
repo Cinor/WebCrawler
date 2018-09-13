@@ -157,5 +157,27 @@ namespace WebCrawler.Services
             }
         }
 
+
+
+        public void InsertStakeholderList()
+        {
+            using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
+            {
+
+
+
+
+                try
+                {
+                    _nDB.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
     }
 }

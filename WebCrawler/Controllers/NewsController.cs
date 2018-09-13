@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using WebCrawler.Models.ViewModel;
 using WebCrawler.Library;
+using System.ComponentModel;
+using System.Threading;
 
 namespace WebCrawler.Controllers
 {
@@ -17,9 +19,11 @@ namespace WebCrawler.Controllers
         /// </summary>
         public void DownloadNewsAsync()
         {
+
             AsyncManager.OutstandingOperations.Increment();
+
             OrderLibrary orderAsync = new OrderLibrary();
-            orderAsync.Download(10);
+            orderAsync.Downloadpage(10);
 
             AsyncManager.OutstandingOperations.Decrement();
         }
