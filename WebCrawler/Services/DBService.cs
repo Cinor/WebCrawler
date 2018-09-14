@@ -4,7 +4,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Web;
 using WebCrawler.Models;
-using WebCrawler.Models.ViewModel;
+using WebCrawler.Models.ViewModels;
 
 namespace WebCrawler.Services
 {
@@ -159,17 +159,25 @@ namespace WebCrawler.Services
 
 
 
-        public void InsertStakeholderList()
+        public void InsertPoliticianList(Politician politician)
         {
             using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
             {
-
-
-
+                PoliticianTable _politician = new PoliticianTable
+                {
+                    Id = politician.Id,
+                    Name = politician.Name,
+                    Amount = politician.Amount,
+                };
+                
 
                 try
                 {
-                    _nDB.SaveChanges();
+                    if (!_nDB.PoliticianTable.Any(b => b.Name == _politician.Name))
+                    {
+                        _nDB.PoliticianTable.Add(_politician);
+                        _nDB.SaveChanges();
+                    }
                 }
                 catch (Exception)
                 {

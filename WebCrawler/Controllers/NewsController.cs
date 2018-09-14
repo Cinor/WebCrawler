@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebCrawler.Models.ViewModel;
+using WebCrawler.Models.ViewModels;
 using WebCrawler.Library;
 using System.ComponentModel;
 using System.Threading;

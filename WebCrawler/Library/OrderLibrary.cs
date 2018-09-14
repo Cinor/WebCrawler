@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using WebCrawler.Services;
 using WebCrawler.Models;
-using WebCrawler.Models.ViewModel;
+using WebCrawler.Models.ViewModels;
 using PagedList;
 
 namespace WebCrawler.Library
@@ -33,7 +33,7 @@ namespace WebCrawler.Library
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<Models.ViewModel.News> getOrderDatas()
+        public List<Models.ViewModels.News> getOrderDatas()
         {
             try
             {
@@ -99,7 +99,7 @@ namespace WebCrawler.Library
         /// 寫入資料庫
         /// </summary>
         /// <param name="newsDatas"></param>
-        public void saveNewsData(List<Models.ViewModel.News> newsDatas)
+        public void saveNewsData(List<Models.ViewModels.News> newsDatas)
         {
 
             foreach (var item in newsDatas)

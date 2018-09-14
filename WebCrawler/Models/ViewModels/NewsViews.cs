@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace WebCrawler.Models.ViewModel
+namespace WebCrawler.Models.ViewModels
 {
     public class NewsViews
     {

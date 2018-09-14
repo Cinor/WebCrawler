@@ -8,7 +8,7 @@ using System.Net;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Threading;
-using WebCrawler.Models.ViewModel;
+using WebCrawler.Models.ViewModels;
 using WebCrawler.Library;
 using PagedList;
 using System.Diagnostics;
