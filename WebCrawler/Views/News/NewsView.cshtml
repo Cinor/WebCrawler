@@ -8,17 +8,6 @@
 
 <h2>新聞爬蟲</h2>
 
-@*<label>PageNumber:</label><input type="text" id="txtName" name="txtName" />
-<script>
-    $('#btnCall').click(function () {
-        $.ajax({
-            url: "@Url.Action("DownloadNews", "News")",
-            data: { Pagenumber: 10 },
-            type: "POST"
-        });
-    });
-</script>*@
-
 <p>
     @using (Html.BeginForm("NewsView", "News", FormMethod.Get))
     {
@@ -26,7 +15,6 @@
             <div>
                 @Html.ActionLink("下載蘋果日報新聞", "DownloadNews", "News", new { @class = "btn btn-primary" })
             </div>
-
             <div>
                 @Html.Label("類型選擇: ") @Html.DropDownList("Types_list", null, "請選擇", new { @class = "form-control" })
             </div>
@@ -35,8 +23,7 @@
             </div>
             <input type="submit" value="查詢" class="btn btn-info" />
         </div>
-
-
+        
         @*@Html.ActionLink("Create New", "Create")*@
     }
 </p>

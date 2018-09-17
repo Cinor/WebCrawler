@@ -158,7 +158,10 @@ namespace WebCrawler.Services
         }
 
 
-
+        /// <summary>
+        /// 政治人物名單寫入
+        /// </summary>
+        /// <param name="politician"></param>
         public void InsertPoliticianList(Politician politician)
         {
             using (News_DatabaseEntities _nDB = new News_DatabaseEntities())

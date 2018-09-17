@@ -5,8 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using WebCrawler.Models.ViewModels;
 using WebCrawler.Library;
-using System.ComponentModel;
-using System.Threading;
+using System.Threading.Tasks;
+using WebCrawler.Models;
 
 namespace WebCrawler.Controllers
 {
@@ -15,21 +15,16 @@ namespace WebCrawler.Controllers
         OrderLibrary orderLibrary = new OrderLibrary();
 
         /// <summary>
-        /// 非同步進入點
+        /// 下載蘋果日報新聞
         /// </summary>
-        public void DownloadNewsAsync()
+        public  void DownloadNewsAsync()
         {
 
-            AsyncManager.OutstandingOperations.Increment();
-
-            OrderLibrary orderAsync = new OrderLibrary();
-            orderAsync.Downloadpage(10);
-
-            AsyncManager.OutstandingOperations.Decrement();
+            Task.Run(() => orderLibrary.Downloadpage(10)).FailFastOnException();                        
         }
 
         /// <summary>
-        /// 非同步結束點
+        /// 下載完畢就跳頁
         /// </summary>
         /// <returns></returns>
         public ActionResult DownloadNewsCompleted()
@@ -37,17 +32,6 @@ namespace WebCrawler.Controllers
 
             return Redirect("/News/NewsView/");
         }
-
-
-        //    public ActionResult DownloadNews()
-        //{
-        //    AsyncManager.OutstandingOperations.Increment();
-        //    OrderLibrary orderAsync = new OrderLibrary();
-            
-        //    orderAsync.Download(5);
-
-        //    return Redirect("/News/NewsView/");
-        //}
 
         [HttpGet]
         public ActionResult NewsView(string Types_list, string Keyword, int page = 1)
