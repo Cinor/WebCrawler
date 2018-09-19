@@ -6,6 +6,7 @@ using WebCrawler.Services;
 using WebCrawler.Models;
 using WebCrawler.Models.ViewModels;
 using PagedList;
+using System.Threading.Tasks;
 
 namespace WebCrawler.Library
 {
@@ -19,13 +20,9 @@ namespace WebCrawler.Library
         /// <param name="page">頁碼</param>
         public void Downloadpage(int page)
         {
+
             NewsMain newsMain = new NewsMain();
-            newsMain.Page = page;
-            newsMain.DownloadNews();
-
-            //System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(newsMain.DownloadNews));
-
-            //thread.Start();
+            newsMain.DownloadNews(10);
 
         }
 
@@ -33,7 +30,7 @@ namespace WebCrawler.Library
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<Models.ViewModels.News> getOrderDatas()
+        public List<News> GetAllNews()
         {
             try
             {
@@ -46,6 +43,7 @@ namespace WebCrawler.Library
 
                 throw;
             }
+
         }
 
         /// <summary>
@@ -53,9 +51,18 @@ namespace WebCrawler.Library
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public News getNewsByID(Guid ID)
+        public News GetNewsByID(Guid ID)
         {
-            return dbServer.SelectNewsById(ID);
+            try
+            {
+                return dbServer.SelectNewsById(ID);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
 
@@ -65,10 +72,10 @@ namespace WebCrawler.Library
         /// <param name="Types">類型</param>
         /// <param name="Keyword">關鍵字</param>
         /// <returns></returns>
-        public NewsViews getNewsDatasByCondition(string Types, string Keyword, int currentPage)
+        public NewsViews GetNewsDatasByCondition(string Types, string Keyword, int currentPage)
         {
 
-            var DatasList = getOrderDatas();
+            var DatasList = GetAllNews();
             var result = DatasList.OrderByDescending(c => c.Time)
                         .Where(c => string.IsNullOrEmpty(Types) ? true : c.Types == Types)
                         .Where(c => string.IsNullOrEmpty(Keyword) ? true : (string.IsNullOrEmpty(c.Content) ? true : c.Content.Contains(Keyword)))
@@ -99,7 +106,7 @@ namespace WebCrawler.Library
         /// 寫入資料庫
         /// </summary>
         /// <param name="newsDatas"></param>
-        public void saveNewsData(List<Models.ViewModels.News> newsDatas)
+        public void SaveNewsData(List<News> newsDatas)
         {
 
             foreach (var item in newsDatas)
@@ -107,6 +114,34 @@ namespace WebCrawler.Library
                 dbServer.InsertNewsData(item);
             }
 
+        }
+        
+        /// <summary>
+        /// 存入政治人物名單
+        /// </summary>
+        /// <param name="politician"></param>
+        public void CreatePolitician(Politician politician)
+        {
+            dbServer.InsertPolitician(politician);
+        }
+
+        /// <summary>
+        /// 取出所有政治人物
+        /// </summary>
+        /// <returns></returns>
+        public List<Politician> GetAllPolitician()
+        {
+            try
+            {
+                var result = dbServer.SelectAllPolitician().ToList();
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
     }

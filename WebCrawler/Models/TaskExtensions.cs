@@ -18,7 +18,8 @@ namespace WebCrawler.Models
         /// <returns></returns>
         public static Task FailFastOnException(this Task task)
         {
-            task.ContinueWith(c => Environment.FailFast("Task faulted", c.Exception),
+
+            task.ContinueWith(c => Environment.FailFast("Task Run() Faulted：", c.Exception),
                 TaskContinuationOptions.OnlyOnFaulted); // 例外發生時才執行。
             return task;
         }
@@ -30,6 +31,7 @@ namespace WebCrawler.Models
         /// <returns></returns>
         public static Task IgnoreExceptions(this Task task)
         {
+
             task.ContinueWith(c => Console.WriteLine(c.Exception),
                 TaskContinuationOptions.OnlyOnFaulted); // 例外發生時才執行。
             return task;

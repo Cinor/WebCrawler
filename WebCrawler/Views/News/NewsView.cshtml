@@ -8,25 +8,96 @@
 
 <h2>新聞爬蟲</h2>
 
+@if (TempData["message"] != null)
+{
+    <script type="text/javascript">
+        var message = @Html.Raw(Json.Encode(TempData["message"]));
+        alert(message);
+    </script>
+}
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    
+    <script>
+        var TeamDetailPostBackURL = '/News/Details';
+        $(function () {
+            $(".anchorDetail").click(function () {
+
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+    </script>
+}
+
+
+<div id='myModal' class='modal fade' role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
 <p>
     @using (Html.BeginForm("NewsView", "News", FormMethod.Get))
     {
+
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div>
-                @Html.ActionLink("下載蘋果日報新聞", "DownloadNews", "News", new { @class = "btn btn-primary" })
-            </div>
             <div>
                 @Html.Label("類型選擇: ") @Html.DropDownList("Types_list", null, "請選擇", new { @class = "form-control" })
             </div>
             <div>
                 @Html.Label("內文關鍵字搜尋: ") @Html.TextBox("Keyword", "", new { @class = "form-control" })
             </div>
-            <input type="submit" value="查詢" class="btn btn-info" />
+            <br />
+            <div>
+                <input type="submit" value="查詢" class="btn btn-info" />
+            </div>
         </div>
-        
-        @*@Html.ActionLink("Create New", "Create")*@
+
     }
+
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div>
+            @Html.ActionLink("下載蘋果日報新聞", "DownloadNews", "News", new { @class = "btn btn-primary" })
+        </div>
+    </div>
+
+    @*@Html.ActionLink("Create New", "Create")*@
 </p>
+
+
 
 <table class="table">
     <tr>
@@ -75,9 +146,10 @@
                         @Html.DisplayFor(modelItem => List.Content)
                 </td>*@
             <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id = List.ID }) |*@
-                @Html.ActionLink("Details", "Details", new { id = List.Id })
-                @*@Html.ActionLink("Delete", "Delete", new { id = List.Id })*@
+                @*@Html.ActionLink("Edit", "Edit", new { id = List.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = List.Id })
+                    @Html.ActionLink("Delete", "Delete", new { id = List.Id })*@
+                <a href="javascript:void(0);" class="anchorDetail" data-id="@List.Id">Details</a>
             </td>
         </tr>
 
@@ -85,27 +157,10 @@
 
 </table>
 
+
 <form method="get">
     @Html.PagedListPager((IPagedList)Model.NewsList, page => Url.Action("NewsView", new { page })
     + "&Types_list=" + Request.Params["Types_list"]
     + "&Keyword=" + Request.Params["Keyword"])
     @*+ "&Pagenumber=" + Request.Params["Pagenumber"])*@
 </form>
-
-
-
-@*<td>  摺疊內文
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                    展開
-                </a>
-            </div>
-            <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
-                <div class="accordion-inner">
-                    @Html.DisplayFor(modelItem => List.Content)
-                </div>
-            </div>
-        </div>
-    </td>*@
-

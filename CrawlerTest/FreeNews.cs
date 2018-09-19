@@ -52,13 +52,15 @@ namespace CrawlerTest
 
                 foreach (var nsd in nodeData)
                 {
-                    News news = new News();
+                    News news = new News
+                    {
 
-                    //建立key值
-                    news.Id = Guid.NewGuid();
+                        //建立key值
+                        Id = Guid.NewGuid(),
 
-                    //抓取類型
-                    news.Types = nsd.SelectSingleNode("./div/a[1]").InnerText;
+                        //抓取類型
+                        Types = nsd.SelectSingleNode("./div/a[1]").InnerText
+                    };
 
                     //抓取網址
                     var newlinks = nsd.SelectSingleNode("./a").Attributes["href"].Value;
@@ -101,11 +103,11 @@ namespace CrawlerTest
                 Dictionary<string, string> DNContent = new Dictionary<string, string>();
 
                 //內文標題
-                var nodeContentHead = doc.DocumentNode.SelectSingleNode("//div[@class='whitecon articlebody']/h1").InnerText;
+                var nodeContentHead = doc.DocumentNode.SelectSingleNode("//div[@class='whitecon articlebody']/h1[1]").InnerText;
                 DNContent.Add("內文標題", nodeContentHead);
 
                 //內文時間 年/月/日 時:分
-                var nodeContentTime = doc.DocumentNode.SelectSingleNode("//div[@class='whitecon articlebody']//div[@class='text']/div/span").InnerText;
+                var nodeContentTime = doc.DocumentNode.SelectSingleNode("//div[@class='whitecon articlebody']/div[@class='text']/div[1]/span[1]").InnerText;
                 DNContent.Add("內文時間", nodeContentTime);
 
                 //內文內容

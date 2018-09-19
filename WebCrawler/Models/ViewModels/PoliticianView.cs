@@ -11,7 +11,7 @@ namespace WebCrawler.Models.ViewModels
         /// <summary>
         /// 利害關係人名單
         /// </summary>
-        public List<Politician> stakeholdersList { get; set; }
+        public List<Politician> PoliticianList { get; set; }
 
 
     }
@@ -34,6 +34,6 @@ namespace WebCrawler.Models.ViewModels
         /// 出現次數
         /// </summary>
         [DisplayName("出現次數")]
-        public int Amount { get; set; }
+        public Nullable<int> Amount { get; set; }
     }
 }

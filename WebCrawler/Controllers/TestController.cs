@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,14 +13,14 @@ namespace WebCrawler.Controllers
     public class TestController : AsyncController
     {
         OrderLibrary orderLibrary = new OrderLibrary();
-        
-        
+
+
         public void TestAsync()
         {
             Task.Run(() => orderLibrary.Downloadpage(10)).FailFastOnException();
 
         }
-        
+
         public ActionResult TestCompleted()
         {
 
@@ -32,5 +33,7 @@ namespace WebCrawler.Controllers
         {
             return View();
         }
+
+
     }
 }

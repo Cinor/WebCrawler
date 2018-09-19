@@ -159,10 +159,44 @@ namespace WebCrawler.Services
 
 
         /// <summary>
+        /// 政治人物名單取出
+        /// </summary>
+        /// <returns></returns>
+        public List<Politician> SelectAllPolitician()
+        {
+            List<Politician> results = null;
+            using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
+            {
+                try
+                {
+                    results = (from DB in _nDB.PoliticianTable
+                               select new Politician
+                               {
+                                   Id = DB.Id,
+                                   Name = DB.Name,
+                                   Amount = DB.Amount
+                               }).ToList();
+
+
+                    //results = _nDB.NewsDataDB.Select( row => row ).ToList();
+
+                    return results;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+
+
+        /// <summary>
         /// 政治人物名單寫入
         /// </summary>
         /// <param name="politician"></param>
-        public void InsertPoliticianList(Politician politician)
+        public void InsertPolitician(Politician politician)
         {
             using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
             {

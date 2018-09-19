@@ -10,35 +10,31 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using WebCrawler.Models.ViewModels;
 using WebCrawler.Library;
-using PagedList;
-using System.Diagnostics;
 
 namespace WebCrawler.Models
 {
     public class NewsMain
     {
         OrderLibrary orderLibrary = new OrderLibrary();
-        //private BackgroundWorker bw = new BackgroundWorker();
-
-        public int Page { get; set; }
 
         /// <summary>
-        /// 
+        /// 依據頁面數量一頁一頁抓取新聞
         /// </summary>
-        public void DownloadNews()
-        {
-            Stopwatch stopwatch = new Stopwatch();
+        public void DownloadNews(int page)
+        {            
             int p = 0;
-            while (p <= Page)
+            while (p <= page)
             {
-
                 DownloadNewsData(p);
-
                 p++;
             }
         }
 
-        private void DownloadNewsData(int page)
+        /// <summary>
+        /// 抓取新聞列表、各個新聞類別
+        /// </summary>
+        /// <param name="page"></param>
+        public void DownloadNewsData(int page)
         {
             string link;
 
@@ -61,13 +57,14 @@ namespace WebCrawler.Models
 
                 foreach (var nsd in nodeData)
                 {
-                    News news = new News();
+                    News news = new News
+                    {
+                        //建立key值
+                        Id = Guid.NewGuid(),
 
-                    //建立key值
-                    news.Id = Guid.NewGuid();
-
-                    //抓取類型
-                    news.Types = nsd.SelectSingleNode("./a/h2").InnerText;
+                        //抓取類型
+                        Types = nsd.SelectSingleNode("./a/h2").InnerText
+                    };
 
                     //抓取網址
                     var newlinks = nsd.SelectSingleNode("./a").Attributes["href"].Value;
@@ -89,7 +86,7 @@ namespace WebCrawler.Models
                     Thread.Sleep(1);
                 }
 
-                orderLibrary.saveNewsData(newsData);
+                orderLibrary.SaveNewsData(newsData);
 
             }
             catch (System.IndexOutOfRangeException e)
@@ -101,6 +98,11 @@ namespace WebCrawler.Models
 
         }
 
+        /// <summary>
+        /// 抓取 內文標題、內文時間、內文內容
+        /// </summary>
+        /// <param name="Link"></param>
+        /// <returns></returns>
         private Dictionary<string, string> DownloadNewsContent(String Link)
         {
             try

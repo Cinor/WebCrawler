@@ -17,37 +17,37 @@ namespace WebCrawler.Controllers
         /// <summary>
         /// 下載蘋果日報新聞
         /// </summary>
-        public  void DownloadNewsAsync()
+        public void DownloadNewsAsync()
         {
 
-            Task.Run(() => orderLibrary.Downloadpage(10)).FailFastOnException();                        
+            Task.Run(() => orderLibrary.Downloadpage(10));
         }
 
-        /// <summary>
-        /// 下載完畢就跳頁
-        /// </summary>
-        /// <returns></returns>
         public ActionResult DownloadNewsCompleted()
         {
+            TempData["message"] = "執行抓取網路上的新聞、請誤重複執行，謝謝。";
 
             return Redirect("/News/NewsView/");
         }
 
+
         [HttpGet]
         public ActionResult NewsView(string Types_list, string Keyword, int page = 1)
         {
+            
             int currentPage = page < 1 ? 1 : page;
-            var news = orderLibrary.getNewsDatasByCondition(Types_list, Keyword, currentPage);
-
+            var news = orderLibrary.GetNewsDatasByCondition(Types_list, Keyword, currentPage);
             return View(news);
         }
 
 
         public ActionResult Details(Guid ID)
         {
-            var news = orderLibrary.getNewsByID(ID);
-            return View(news);
+            
+            var news = orderLibrary.GetNewsByID(ID);
+            //return View("Details", news);
+            return PartialView("Details", news);
+            
         }
-
     }
 }
