@@ -1,16 +1,25 @@
 ﻿@model WebCrawler.Models.ViewModels.PoliticianView
 
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = "Politician";
 }
 
-<h2>View</h2>
+<h2>Politician</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create Politician", "Create")
+</p>
+<p>
+    @Html.ActionLink("Statistics", "Statistics", "Politician", new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.PoliticianList.FirstOrDefault().Id)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.PoliticianList.FirstOrDefault().IsIsSelected)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.PoliticianList.FirstOrDefault().Name)
         </th>
@@ -22,6 +31,12 @@
 
 @foreach (var item in Model.PoliticianList) {
     <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>*@
+        <td>
+            @Html.CheckBoxFor(modelItem => item.IsIsSelected)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -29,9 +44,9 @@
             @Html.DisplayFor(modelItem => item.Amount)
         </td>
         <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
+            @Html.ActionLink("NewsList", "Details", new { Name = item.Name }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }

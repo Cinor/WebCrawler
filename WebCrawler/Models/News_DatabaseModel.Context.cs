@@ -27,7 +27,5 @@ namespace WebCrawler.Models
     
         public virtual DbSet<NewsDataDB> NewsDataDB { get; set; }
         public virtual DbSet<PoliticianTable> PoliticianTable { get; set; }
-
-        public System.Data.Entity.DbSet<WebCrawler.Models.ViewModels.Politician> Politicians { get; set; }
     }
 }

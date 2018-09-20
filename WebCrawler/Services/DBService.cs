@@ -202,7 +202,8 @@ namespace WebCrawler.Services
             {
                 PoliticianTable _politician = new PoliticianTable
                 {
-                    Id = politician.Id,
+                    //ID取Key值
+                    Id = Guid.NewGuid(),
                     Name = politician.Name,
                     Amount = politician.Amount,
                 };
@@ -220,6 +221,66 @@ namespace WebCrawler.Services
                 {
 
                     throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新政治人物名單
+        /// </summary>
+        /// <param name="politician"></param>
+        public void UpdataPolitician(Politician politician)
+        {
+            using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
+            {
+
+                if (_nDB.PoliticianTable.Any(d => d.Id == politician.Id))
+                {
+                    var DB_News = _nDB.PoliticianTable.Where(d => d.Id == politician.Id).Single();
+
+                    DB_News.Id = politician.Id;
+                    DB_News.Name = politician.Name;
+                    DB_News.Amount = politician.Amount;
+                    
+                    try
+                    {
+                        _nDB.SaveChanges();
+
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                }
+
+
+            }
+        }
+
+        /// <summary>
+        /// 刪除人物
+        /// </summary>
+        public void RemovePolitician(Guid ID)
+        {
+            using (News_DatabaseEntities _nDB = new News_DatabaseEntities())
+            {
+
+                if (_nDB.PoliticianTable.Any(d => d.Id == ID))
+                {
+                    var DB_Politician = _nDB.PoliticianTable.Where(d => d.Id == ID).Single();
+
+                    try
+                    {
+                        _nDB.PoliticianTable.Remove(DB_Politician);
+                        _nDB.SaveChanges();
+
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
                 }
             }
         }

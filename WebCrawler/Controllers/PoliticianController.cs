@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebCrawler.Library;
@@ -8,23 +9,43 @@ using WebCrawler.Models.ViewModels;
 
 namespace WebCrawler.Controllers
 {
-    public class PoliticianController : Controller
+    public class PoliticianController : AsyncController
     {
-        OrderLibrary orderLibrary = new OrderLibrary();
+        OrderLibrary _orderLibrary = new OrderLibrary();
 
+        public void StatisticsAsync()
+        {
+            Task.Run(() => _orderLibrary.Statistics());
+
+        }
+
+        public ActionResult StatisticsCompleted()
+        {
+            //TempData["message"] = "統計完成，請重新整理頁面。";
+
+            return Redirect("/Politician/PoliticianView/");
+        }
+        
         [HttpGet]
         // GET: Politician
         public ActionResult PoliticianView()
         {
-            var politician = orderLibrary.GetAllPolitician();
+            var politician = _orderLibrary.GetAllPolitician();
+            return View("PoliticianView", politician);
+        }
+
+
+        public ActionResult Create()
+        {
             return View();
         }
 
+        [HttpPost]
         public ActionResult Create(Politician politician)
         {
-            orderLibrary.CreatePolitician(politician);
+            _orderLibrary.SavePolitician(politician);
 
-            return View("Create");
+            return RedirectToAction("PoliticianView");
         }
 
         
@@ -33,10 +54,20 @@ namespace WebCrawler.Controllers
             return View();
         }
 
-        [HttpDelete]
-        public ActionResult Delete()
+
+        public ActionResult Details(String Name)
         {
-            return View();
+            //轉址至NewsController/NewsView
+            return RedirectToAction("NewsView", "News", new { @Keyword = Name });
+
+        }
+
+
+        public ActionResult Delete(Guid ID)
+        {
+            _orderLibrary.DeletePolitician(ID);
+
+            return RedirectToAction("PoliticianView");
         }
     }
 }

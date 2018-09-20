@@ -18,6 +18,9 @@ namespace WebCrawler.Models.ViewModels
 
     public class Politician
     {
+        [DisplayName("選取")]
+        public bool IsIsSelected { get; set; }
+
         /// <summary>
         /// ID
         /// </summary>

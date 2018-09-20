@@ -12,7 +12,7 @@ namespace WebCrawler.Library
 {
     public class OrderLibrary
     {
-        DBService dbServer = new DBService();
+        DBService _dbServer = new DBService();
 
         /// <summary>
         /// 依據頁碼決定下載的新聞數量
@@ -34,7 +34,7 @@ namespace WebCrawler.Library
         {
             try
             {
-                var result = dbServer.SelectAllNews().ToList();
+                var result = _dbServer.SelectAllNews().ToList();
 
                 return result;
             }
@@ -55,7 +55,7 @@ namespace WebCrawler.Library
         {
             try
             {
-                return dbServer.SelectNewsById(ID);
+                return _dbServer.SelectNewsById(ID);
             }
             catch (Exception)
             {
@@ -111,7 +111,7 @@ namespace WebCrawler.Library
 
             foreach (var item in newsDatas)
             {
-                dbServer.InsertNewsData(item);
+                _dbServer.InsertNewsData(item);
             }
 
         }
@@ -120,22 +120,65 @@ namespace WebCrawler.Library
         /// 存入政治人物名單
         /// </summary>
         /// <param name="politician"></param>
-        public void CreatePolitician(Politician politician)
+        public void SavePolitician(Politician politician)
         {
-            dbServer.InsertPolitician(politician);
+            _dbServer.InsertPolitician(politician);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DeletePolitician(Guid ID)
+        {
+            _dbServer.RemovePolitician(ID);
+        }
+
 
         /// <summary>
         /// 取出所有政治人物
         /// </summary>
         /// <returns></returns>
-        public List<Politician> GetAllPolitician()
+        public PoliticianView GetAllPolitician()
         {
             try
             {
-                var result = dbServer.SelectAllPolitician().ToList();
+                var result = _dbServer.SelectAllPolitician().ToList();
 
-                return result;
+                PoliticianView politicianView = new PoliticianView()
+                {
+                    PoliticianList = result
+                };
+
+                return politicianView;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        /// <summary>
+        /// 統計名子出現次數
+        /// </summary>
+        public void Statistics()
+        {
+            var Comparison = _dbServer.SelectAllPolitician();
+            var NewsList = GetAllNews();
+            
+            try
+            {
+                foreach (var item in Comparison)
+                {
+
+                    var result = NewsList.OrderByDescending(c => c.Time)
+                                .Where(c => string.IsNullOrEmpty(item.Name) ? true : (string.IsNullOrEmpty(c.Content) ? true : c.Content.Contains(item.Name)))
+                                .ToList();
+
+                    item.Amount = result.Count();
+                    _dbServer.UpdataPolitician(item);
+                }
             }
             catch (Exception)
             {
