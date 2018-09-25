@@ -43,6 +43,9 @@ namespace WebCrawler.Controllers
         [HttpPost]
         public ActionResult Create(Politician politician)
         {
+            //設定0
+            politician.Amount = 0;
+
             _orderLibrary.SavePolitician(politician);
 
             return RedirectToAction("PoliticianView");

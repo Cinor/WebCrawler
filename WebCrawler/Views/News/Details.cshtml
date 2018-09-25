@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-
+<div>    
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h2>@Html.DisplayFor(model => model.Head)</h2>
@@ -22,12 +22,12 @@
             </dd>
 
             @*<dt>
-                @Html.DisplayNameFor(model => model.Types)
-            </dt>
+                    @Html.DisplayNameFor(model => model.Types)
+                </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Types)
-            </dd>*@
+                <dd>
+                    @Html.DisplayFor(model => model.Types)
+                </dd>*@
 
             <dt>
                 @Html.DisplayNameFor(model => model.Links)
@@ -38,12 +38,12 @@
             </dd>
 
             @*<dt>
-                @Html.DisplayNameFor(model => model.Head)
-            </dt>
+                    @Html.DisplayNameFor(model => model.Head)
+                </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Head)
-            </dd>*@
+                <dd>
+                    @Html.DisplayFor(model => model.Head)
+                </dd>*@
 
             <dt>
                 @Html.DisplayNameFor(model => model.Content)
@@ -57,7 +57,7 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
-
+</div>
 @*
     <div class="modal-content">
         <h4>@Html.DisplayFor(model => model.Types)</h4>
