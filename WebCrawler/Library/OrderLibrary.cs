@@ -78,7 +78,7 @@ namespace WebCrawler.Library
             var DatasList = GetAllNews();
             var result = DatasList.OrderByDescending(c => c.Time)
                         .Where(c => string.IsNullOrEmpty(Types) ? true : c.Types == Types)
-                        .Where(c => string.IsNullOrEmpty(Keyword) ? true : (string.IsNullOrEmpty(c.Content) ? true : c.Content.Contains(Keyword)))
+                        .Where(c => string.IsNullOrEmpty(Keyword) ? true : (string.IsNullOrEmpty(c.Content) ? false : c.Content.Contains(Keyword)))
                         .ToList();
 
 
@@ -173,7 +173,7 @@ namespace WebCrawler.Library
                 {
 
                     var result = NewsList.OrderByDescending(c => c.Time)
-                                .Where(c => string.IsNullOrEmpty(item.Name) ? true : (string.IsNullOrEmpty(c.Content) ? true : c.Content.Contains(item.Name)))
+                                .Where(c => string.IsNullOrEmpty(item.Name) ? true : (string.IsNullOrEmpty(c.Content) ? false : c.Content.Contains(item.Name)))
                                 .ToList();
 
                     item.Amount = result.Count();
